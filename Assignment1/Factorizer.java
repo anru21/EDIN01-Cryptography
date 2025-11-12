@@ -1,6 +1,9 @@
-public class Factorizer{
+import java.util.List;
+
+public class Factorizer {
 
     public static void main(String[] args) {
-        System.out.println("hej");
+        int[] factorBase = PrimeGenerator.genFactorBase(1000);
+
     }
 }
