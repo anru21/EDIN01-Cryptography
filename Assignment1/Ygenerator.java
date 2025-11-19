@@ -13,13 +13,13 @@ public class Ygenerator {
         int count = 0;
         int[][] exponent_matrix = new int[factor_base.length + MARGIN][factor_base.length];
         int[][] exponent_mod_matrix = new int[factor_base.length + MARGIN][factor_base.length];
-        BigInteger[] r_vector = new BigInteger[factor_base.length];
+        BigInteger[] r_vector = new BigInteger[factor_base.length + MARGIN];
 
         // continue submitting potential r:s until result matrices are filled
         while (count < factor_base.length + MARGIN) {
             System.out.println("Iter " + count + ", x: " + x + ", y:" + y);
             
-            BigInteger r = N.multiply(BigInteger.valueOf(x).sqrt()).add(BigInteger.valueOf(y));     // r = floor(sqrt(k*N)) + j
+            BigInteger r = N.multiply(BigInteger.valueOf(x)).sqrt().add(BigInteger.valueOf(y));     // r = floor(sqrt(k*N)) + j
             System.out.println("r:" + r.toString());
             BigInteger r_square = r.modPow(BigInteger.TWO, N);                                           // r^2 mod N
             System.out.println("r^2:" + r_square.toString());
