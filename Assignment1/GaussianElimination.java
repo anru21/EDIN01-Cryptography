@@ -38,26 +38,27 @@ public class GaussianElimination {
 
         // Last 5 rows should now have all even exponents
         for (int i = exponentMatrix.length - 5; i < exponentMatrix.length; i++) {
-            BigInteger modX = xVector[i].divideAndRemainder(N)[1];
-            BigInteger y = BigInteger.valueOf(1);
+            BigInteger modX = xVector[i]; // not bigger than N so no MOD actually needed
+            BigInteger y = BigInteger.ONE;
             Boolean contains1 = false;
             for (int j = 0; j < exponentMatrix[i].length; j++) {
-                System.out.print(binaryMatrix[i][j] + " ");
+                //System.out.print(binaryMatrix[i][j] + " ");
                 if (binaryMatrix[i][j] == 1) {
                     contains1 = true;
                 }
-                // System.out.println(exponentMatrix[i][j]);
-                y = y.multiply(BigInteger.valueOf(factorBase[j]).pow(exponentMatrix[i][j] /
-                        2));
+                // here we have to use modPow instead of pow. Otherwise the numbers become to big.
+                y = y.multiply(BigInteger.valueOf(factorBase[j]).modPow(BigInteger.valueOf(exponentMatrix[i][j] / 2), N)).mod(N);
             }
             // System.out.println(contains1);
-            BigInteger modY = y.divideAndRemainder(N)[1];
+            BigInteger modY = y.divideAndRemainder(N)[1];           //one final modulus after last factor has been multiplied
 
             BigInteger gcd = bigIntGCD(modX.subtract(modY).abs(), N);
             if (gcd.compareTo(BigInteger.ONE) != 0) {
-                System.out.println(N.divideAndRemainder(gcd)[0]);
-                System.out.println(gcd);
-                System.out.println(contains1);
+                System.out.println("-------------------------------------------");
+                System.out.println("Try " + (i - 99) + " :");
+                System.out.println("p = " + N.divideAndRemainder(gcd)[0]);
+                System.out.println("q = " + gcd);
+                System.out.println("(1 found in binary exponent matrix? : " + contains1 + ")");
             }
         }
     }

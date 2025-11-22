@@ -44,18 +44,18 @@ public class Ygenerator {
                             // but we instead use exponent-mod vector to avoid "duplicates"
                             int[] temp_exponent_mod_vector = new int[factor_base.length];
 
-                            System.out.print("Exponent vector: ");
+                            //System.out.print("Exponent vector: ");
                             for (int j = 0; j < factor_base.length; j++) {
                                 temp_exponent_mod_vector[j] = temp_exponent_vector[j] % 2;
-                                System.out.print(temp_exponent_vector[j] + " ");
+                                //System.out.print(temp_exponent_vector[j] + " ");
                             }
-                            System.out.println();
+                            //System.out.println();
 
-                            System.out.print("Exponent mod vector: ");
+                            //System.out.print("Exponent mod vector: ");
                             for (int j = 0; j < factor_base.length; j++) {
-                                System.out.print(temp_exponent_mod_vector[j] + " ");
+                                //System.out.print(temp_exponent_mod_vector[j] + " ");
                             }
-                            System.out.println();
+                            //System.out.println();
 
                             // check if temp_exponent_mod_vector already exists among the filled rows
                             boolean exists = false;
