@@ -14,7 +14,7 @@ public class Factorizer {
         // Our number that we want to find the factorization of
         // 170527948450228765165631
 
-        BigInteger N = new BigInteger("31741649");
+        BigInteger N = new BigInteger("170527948450228765165631");
         System.out.println(N);
         int[] factorBase = PrimeGenerator.genFactorBase(1000);
 

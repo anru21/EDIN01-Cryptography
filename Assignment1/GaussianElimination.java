@@ -44,7 +44,9 @@ public class GaussianElimination {
 
             // New process builder that will run the executable Gaussian Elimination file
             ProcessBuilder pb = new ProcessBuilder("./GaussBin.exe", "input.txt", "output.txt");
-            pb.start();
+            Process p = pb.start();
+
+            p.waitFor();
 
             BufferedReader inStream = new BufferedReader(new FileReader("output.txt"));
 
@@ -56,9 +58,9 @@ public class GaussianElimination {
 
             // Represents the Left hand side of the equation x^2 = y^2 mod N that later will
             // be used
-            BigInteger LHS = BigInteger.ONE;
 
             while (!solutionFound && (equationSolution = inStream.readLine()) != null) {
+                BigInteger LHS = BigInteger.ONE;
 
                 // Split the equation solution on whitespaces. String -> String[]
                 String[] bits = equationSolution.trim().split("\\s+");
@@ -114,43 +116,6 @@ public class GaussianElimination {
             e.printStackTrace();
         }
 
-    }
-
-    /*
-     * Adds the equation for row j to equation for row k
-     */
-    private static void accumulateRow(int j, int k, BigInteger[] xVector, int[][] binaryMatrix,
-            int[][] exponentMatrix, BigInteger N, int[] factorBase) {
-
-        xVector[k] = xVector[k].multiply(xVector[j]).mod(N);
-        // System.out.println("Bit length of xVector[" + k + "]: " +
-        // xVector[k].bitLength());
-        for (int l = 0; l < binaryMatrix[0].length; l++) {
-            binaryMatrix[k][l] = (binaryMatrix[k][l] + binaryMatrix[j][l]) % 2;
-            exponentMatrix[k][l] = (exponentMatrix[k][l] + exponentMatrix[j][l]);
-            if (exponentMatrix[j][l] != 0) {
-                // System.out.println(factorBase[l] + " " + exponentMatrix[k][l]);
-            }
-        }
-    }
-
-    /*
-     * Swaps place between equation on row i and row j
-     */
-    private static void moveUpPivotEquation(int i, int j, BigInteger[] xVector, int[][] binaryMatrix,
-            int[][] exponentMatrix) {
-
-        int[] binaryTemp = binaryMatrix[j];
-        int[] exponentTemp = exponentMatrix[j];
-        BigInteger xTemp = xVector[j];
-
-        binaryMatrix[j] = binaryMatrix[i];
-        exponentMatrix[j] = exponentMatrix[i];
-        xVector[j] = xVector[i];
-
-        binaryMatrix[i] = binaryTemp;
-        exponentMatrix[i] = exponentTemp;
-        xVector[i] = xTemp;
     }
 
     // Help method to calculate gcd between to bigintegers
