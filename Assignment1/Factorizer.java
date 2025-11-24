@@ -14,19 +14,31 @@ public class Factorizer {
         // Our number that we want to find the factorization of
         // 170527948450228765165631
 
+        long startTime = System.nanoTime();
         BigInteger N = new BigInteger("170527948450228765165631");
         System.out.println(N);
         int[] factorBase = PrimeGenerator.genFactorBase(1000);
 
-        System.out.print("Factorbase B: ");
-        for (int i = 0; i < factorBase.length; i++) {
-            System.out.print(factorBase[i] + " ");
-        }
-        System.out.println();
-
         MatrixBundle bundle = Ygenerator.generate(factorBase, N);
 
-        GaussianElimination.gaussAlgorithm(bundle, N, factorBase);
+        if (bundle == null) {
+            for (Integer factor : factorBase) {
+                if (N.mod(BigInteger.valueOf(factor)).equals(BigInteger.ZERO)) {
+                    System.out.println(factor);
+                    System.out.println(N.divide(BigInteger.valueOf(factor)));
+                    break;
+                }
+            }
+        } else {
+            GaussianElimination.gaussAlgorithm(bundle, N, factorBase);
+
+        }
+
+        long elapsedTime = System.nanoTime() - startTime;
+
+        float elapsedSeconds = ((float) elapsedTime / 1000000000);
+
+        System.out.println("The program took " + String.format("%.3f", elapsedSeconds) + " s");
 
     }
 }

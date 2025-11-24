@@ -7,3 +7,7 @@ $10^{12} / 10^{7} = 10^{5} = 27.777 hour$
 Number of primes $<10^{12}$ is aporox. $x/ln(x) = 10^{12}/ln(10^{12}) = 3.6*10^{11}$. (??)
 
 $3.6*10^{11} / 10^{7} = 3.6*10^{4} = 1 hour$
+
+## 4: Include measurement of CPU-time in your program and measure the time it takes to factor the number n =92434447339770015548544881401
+
+128.689 seconds
