@@ -17,13 +17,13 @@ public class Ygenerator {
 
         // continue submitting potential r:s until result matrices are filled
         while (count < factor_base.length + MARGIN) {
-            System.out.println("Iter " + count + ", x: " + x + ", y:" + y);
+            // System.out.println("Iter " + count + ", x: " + x + ", y:" + y);
 
             BigInteger r = N.multiply(BigInteger.valueOf(x)).sqrt().add(BigInteger.valueOf(y)); // r = floor(sqrt(k*N))
                                                                                                 // + j
-            System.out.println("r:" + r.toString());
+            // System.out.println("r:" + r.toString());
             BigInteger r_square = r.modPow(BigInteger.TWO, N); // r^2 mod N
-            System.out.println("r^2:" + r_square.toString());
+            // System.out.println("r^2:" + r_square.toString());
             if (r_square.compareTo(BigInteger.ZERO) == 0) {
                 return null;
             }
