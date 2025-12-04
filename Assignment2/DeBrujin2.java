@@ -1,35 +1,27 @@
-Public Class DeBrujin2 {
+public class DeBrujin2 {
 
     private String initState;
-    private int[4] currState;
+    private int[] currState = new int[4];
 
-    public void DuBrujin2(String initState){
+    public DeBrujin2(String initState){
         this.initState = initState;
         for(int i = 0; i < 4; i++){
-            currState[i] = ((int) initState[i]) % 2;
+            currState[i] = ((int) initState.charAt(i)) % 2;
         }
     } 
 
     public String getCurrState(){
-        String currStr = ""; 
-        for(int i = 0; i < 4, i++){
-            currStr = currStr.concat(currState[i].toString());
-        }
-        return currStr;
+        return String.valueOf(currState[3]) + String.valueOf(currState[1]) + String.valueOf(currState[2]) + String.valueOf(currState[0]);
     }
 
     public int step(){
         int out = currState[3];
-        int next = currState[3] + currState[0] + this.func();
+        int next = (currState[3] + currState[0] + this.func()) % 2;
 
-
-        for(int i = 0; i < 4; i++){
-            if(i == 0) {
-                currState[i] = next;
-            } else {
-                currState[i] = currState[i];
-            }  
-        }
+        currState[3] = currState[2];
+        currState[2] = currState[1];
+        currState[1] = currState[0];
+        currState[0] = next;
 
         return out;
     }
