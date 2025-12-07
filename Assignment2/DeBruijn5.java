@@ -32,13 +32,16 @@ public class DeBruijn5 {
     }
 
     private int func() {
-        if (currState[0] == 1 && currState[1] == 0 && currState[2] == 0 && currState[3] == 0) {
+        if (currState[0] == 1 && currState[1] == 0 && currState[2] == 0 &&
+                currState[3] == 0) {
             return 3;
         }
-        if (currState[0] == 0 && currState[1] == 0 && currState[2] == 0 && currState[3] == 0) {
+        if (currState[0] == 0 && currState[1] == 0 && currState[2] == 0 &&
+                currState[3] == 0) {
             return 2;
 
         }
+
         return 0;
     }
 
@@ -62,7 +65,7 @@ public class DeBruijn5 {
             int d2Term = currState[2];
             int dTerm = currState[3];
 
-            int newValue = ((2 * (d4Term + d2Term + 2 * dTerm)) + this.func()) % 5;
+            int newValue = (((2 * d4Term) + (2 * d2Term) + dTerm) + this.func()) % 5;
 
             for (int j = 0; j < currState.length - 1; j++) {
                 currState[j] = currState[j + 1];
