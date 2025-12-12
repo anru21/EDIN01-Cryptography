@@ -19,164 +19,76 @@ public class CorrelationAttack {
         }
 
         // D0 D1 D2 D3 D4 D5 D6 D7 D8 D9 D10 D11 D12 D13
-        int[] lf13Conn = { 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1 };
+        int[] lf13Conn = { 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1 };
         LFSR lf13 = new LFSR(13, lf13Conn);
-
-        /************************************************************************
-         * Key guess for LFSR13
-         *************************************************************************/
-        float p_max = 0;
-
-        int initialStateGuess = 0;
-
-        for (int i = 1; i < Math.pow(2, 13) + 1; i++) {
-            int[] initState = new int[13];
-            int lengthOfBinaryRep = Integer.toBinaryString(i).length();
-            String initialZeros;
-
-            if (lengthOfBinaryRep < 13) {
-                // Appends 0:s to the beginning of the binary representation if the number is
-                // less than 13 bits
-                initialZeros = "0".repeat(13 - lengthOfBinaryRep);
-            } else {
-                // The binary representation is 13 bits
-                initialZeros = "";
-            }
-
-            StringBuilder binaryRepresent = new StringBuilder(initialZeros + Integer.toBinaryString(i));
-
-            for (int j = 0; j < 13; j++) {
-                initState[j] = binaryRepresent.charAt(12 - j) - '0';
-            }
-
-            // Tests initStats as the initialstate of the lfsr
-            lf13.setCurrPol(initState);
-
-            // Calculates the Hamming distance between the keystream and the LFSR output
-            int hammingDistance = 0;
-            for (int keyIndex = 0; keyIndex < keystream.length(); keyIndex++) {
-                int keyBit = (int) keystream.charAt(keyIndex) - '0';
-                int lfsrOutput = lf13.step();
-                hammingDistance += Math.abs(lfsrOutput - keyBit);
-            }
-
-            // 1 - (Hamming distance / N)
-            float p = 1 - ((float) hammingDistance / keystream.length());
-
-            if (p > p_max) {
-                p_max = p;
-                initialStateGuess = i;
-            }
-
-        }
-        System.out.println(initialStateGuess);
-
-        /************************************************************************
-         * Key guess for LFSR15
-         *************************************************************************/
-
-        // D0 D1 D2 D3 D4 D5 D6 D7 D8 D9 D10 D11 D12 D13
+        StringBuilder initState13 = initialStateGuess(lf13, 13, keystream);
+        System.out.println("The init state of LFSR13 is " + initState13);
         int[] lf15Conn = { 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1 };
         LFSR lf15 = new LFSR(15, lf15Conn);
-
-        p_max = 0;
-
-        initialStateGuess = 0;
-
-        for (int i = 1; i < Math.pow(2, 15); i++) {
-            int[] initState = new int[15];
-            int lengthOfBinaryRep = Integer.toBinaryString(i).length();
-            String initialZeros;
-
-            if (lengthOfBinaryRep < 15) {
-                // Appends 0:s to the beginning of the binary representation if the number is
-                // less than 15 bits
-                initialZeros = "0".repeat(15 - lengthOfBinaryRep);
-            } else {
-                // The binary representation is 13 bits
-                initialZeros = "";
-            }
-
-            StringBuilder binaryRepresent = new StringBuilder(initialZeros + Integer.toBinaryString(i));
-
-            for (int j = 0; j < 15; j++) {
-                initState[j] = binaryRepresent.charAt(14 - j) - '0';
-            }
-
-            // Tests initStats as the initialstate of the lfsr
-            lf15.setCurrPol(initState);
-
-            // Calculates the Hamming distance between the keystream and the LFSR output
-            int hammingDistance = 0;
-            for (int keyIndex = 0; keyIndex < keystream.length(); keyIndex++) {
-                int keyBit = (int) keystream.charAt(keyIndex) - '0';
-                int lfsrOutput = lf15.step();
-                hammingDistance += Math.abs(lfsrOutput - keyBit);
-            }
-
-            // 1 - (Hamming distance / N)
-            float p = 1 - ((float) hammingDistance / keystream.length());
-
-            if (p > p_max) {
-                p_max = p;
-                initialStateGuess = i;
-                // System.out.println(binaryRepresent);
-
-            }
-
-        }
-        System.out.println(initialStateGuess);
-
-        // D0 D1 D2 D3 D4 D5 D6 D7 D8 D9 D10 D11 D12 D13
+        StringBuilder initState15 = initialStateGuess(lf15, 15, keystream);
+        System.out.println("The init state of LFSR15 is " + initState15);
         int[] lf17Conn = { 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1 };
         LFSR lf17 = new LFSR(17, lf17Conn);
+        StringBuilder initState17 = initialStateGuess(lf17, 17, keystream);
+        System.out.println("The init state of LFSR17 is " + initState17);
 
-        p_max = 0;
+    }
 
-        initialStateGuess = 0;
+    private static StringBuilder initialStateGuess(LFSR lfsr, int lfsrLength, StringBuilder keystream) {
+        float p_max = 0;
 
-        for (int i = 1; i < Math.pow(2, 17) + 1; i++) {
-            int[] initState = new int[17];
+        StringBuilder initStateGuess = new StringBuilder("");
+
+        for (int i = 1; i < Math.pow(2, lfsrLength) + 1; i++) {
+            int[] initState = new int[lfsrLength];
             int lengthOfBinaryRep = Integer.toBinaryString(i).length();
             String initialZeros;
 
-            if (lengthOfBinaryRep < 17) {
+            if (lengthOfBinaryRep < lfsrLength) {
                 // Appends 0:s to the beginning of the binary representation if the number is
-                // less than 15 bits
-                initialZeros = "0".repeat(17 - lengthOfBinaryRep);
+                // less than lfsrLength bits
+                initialZeros = "0".repeat(lfsrLength - lengthOfBinaryRep);
             } else {
-                // The binary representation is 13 bits
+                // The binary representation is lfsrLength bits long
                 initialZeros = "";
             }
 
             StringBuilder binaryRepresent = new StringBuilder(initialZeros + Integer.toBinaryString(i));
 
-            for (int j = 0; j < 17; j++) {
-                initState[j] = binaryRepresent.charAt(16 - j) - '0';
+            for (int j = 0; j < lfsrLength; j++) {
+                initState[j] = binaryRepresent.charAt((lfsrLength - 1) - j) - '0';
             }
 
             // Tests initStats as the initialstate of the lfsr
-            lf17.setCurrPol(initState);
+            lfsr.setCurrPol(initState);
 
             // Calculates the Hamming distance between the keystream and the LFSR output
-            int hammingDistance = 0;
-            for (int keyIndex = 0; keyIndex < keystream.length(); keyIndex++) {
-                int keyBit = (int) keystream.charAt(keyIndex) - '0';
-                int lfsrOutput = lf17.step();
-                hammingDistance += Math.abs(lfsrOutput - keyBit);
-            }
+            int hammingDistance = hammingDistance(lfsr, keystream);
 
             // 1 - (Hamming distance / N)
             float p = 1 - ((float) hammingDistance / keystream.length());
 
             if (p > p_max) {
                 p_max = p;
-                initialStateGuess = i;
-
+                initStateGuess = binaryRepresent;
             }
 
         }
-        System.out.println(initialStateGuess);
+
+        System.out.println("The best (maximum biased) probability p for LFSR" + lfsrLength + " is " + p_max);
+
+        return initStateGuess;
+    }
+
+    private static int hammingDistance(LFSR lfsr, StringBuilder keystream) {
+        int hammingDistance = 0;
+        for (int keyIndex = 0; keyIndex < keystream.length(); keyIndex++) {
+            int keyBit = (int) keystream.charAt(keyIndex) - '0';
+            int lfsrOutput = lfsr.step();
+            hammingDistance += Math.abs(lfsrOutput - keyBit);
+        }
+
+        return hammingDistance;
 
     }
 
