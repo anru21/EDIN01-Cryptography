@@ -36,8 +36,8 @@ public class LFSR {
         int res = currPol[length - 1];
         int temp = func();
 
-        for (int i = length - 1; i > 0; i--){
-            currPol[i] = currPol[i-1];
+        for (int i = length - 1; i > 0; i--) {
+            currPol[i] = currPol[i - 1];
         }
 
         currPol[0] = temp;
@@ -45,13 +45,13 @@ public class LFSR {
         return res;
     }
 
-    private int func(){
+    private int func() {
         int[] masked = new int[this.length];
 
-        for(int i = 0; i < length; i++){
-            masked[i] = currPol[i] & connectionPol[i]; 
+        for (int i = 0; i < length; i++) {
+            masked[i] = currPol[i] & connectionPol[i];
         }
-        
+
         int c = 0;
         for (int num : masked) {
             if (num == 1) {
